@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,9 +14,9 @@ namespace PDFMetaDataUpdater {
 	public partial class MainWindow : Window {
 		List<string> selectedFilePaths;
 
-		string curMangaTitle = "MangaTitle";
-		string curMangaAuthor = "MangaAuthor";
-		int curPadding0s = 2;
+		string customMangaTitle = "MangaTitle";
+		string customMangaAuthor = "MangaAuthor";
+		int custom0sPadding = 2;
 
 		#region Setup
 		public MainWindow() {
@@ -30,9 +31,9 @@ namespace PDFMetaDataUpdater {
 		}
 
 		private void InitializeInputFields() {
-			TitleField.Text = curMangaTitle;
-			AuthorField.Text = curMangaAuthor;
-			Padding0sSlider.Value = curPadding0s;
+			TitleField.Text = customMangaTitle;
+			AuthorField.Text = customMangaAuthor;
+			Padding0sSlider.Value = custom0sPadding;
 		}
 
 		private static void OpenPdfFileEditingStream() {
@@ -58,15 +59,15 @@ namespace PDFMetaDataUpdater {
 
 		#region Input Fields
 		private void SaveEnteredTitle(object sender, RoutedEventArgs e) {
-			curMangaTitle = TitleField.Text;
+			customMangaTitle = TitleField.Text;
 			RefreshNewFormattingPreview();
 		}
 		private void SaveEnteredAuthor(object sender, RoutedEventArgs e) {
-			curMangaAuthor = AuthorField.Text;
+			customMangaAuthor = AuthorField.Text;
 			RefreshNewFormattingPreview();
 		}
 		private void SaveEnteredPadding0s(object sender, RoutedEventArgs e) {
-			curPadding0s = (int)Padding0sSlider.Value;
+			custom0sPadding = (int)Padding0sSlider.Value;
 			RefreshNewFormattingPreview();
 		}
 		#endregion
@@ -103,13 +104,13 @@ namespace PDFMetaDataUpdater {
 
 				await Task.Delay(1);
 
-				string volumeNumber = counter.ToString().PadLeft(curPadding0s, '0');
-				string newName = curMangaTitle + " v" + volumeNumber + ".pdf";
-				string newTitle = curMangaTitle + " v" + volumeNumber;
+				string volumeNumber = counter.ToString().PadLeft(custom0sPadding, '0');
+				string newName = customMangaTitle + " v" + volumeNumber + ".pdf";
+				string newTitle = customMangaTitle + " v" + volumeNumber;
 
 				PdfDocument document = PdfReader.Open(filePath);
 				document.Info.Title = newTitle;
-				document.Info.Author = curMangaAuthor;
+				document.Info.Author = customMangaAuthor;
 				document.Save(newDirectory + "/" + newName);
 
 				counter++;
@@ -130,12 +131,12 @@ namespace PDFMetaDataUpdater {
 
 		private void RefreshNewFormattingPreview() {
 			string padding0sPreview = "";
-			for (int p = 0; p < curPadding0s; p++) {
+			for (int p = 0; p < custom0sPadding; p++) {
 				padding0sPreview += '#';
 			}
-			NewFormattingPreviewTitle.Text = "Title: " + curMangaTitle + " v" + padding0sPreview;
+			NewFormattingPreviewTitle.Text = "Title: " + customMangaTitle + " v" + padding0sPreview;
 
-			NewFormattingPreviewAuthor.Text = "Author: " + curMangaAuthor;
+			NewFormattingPreviewAuthor.Text = "Author: " + customMangaAuthor;
 		}
 
 		private void RefreshingRunningProgressMessage(int curDocument, int totalDocuments) {
