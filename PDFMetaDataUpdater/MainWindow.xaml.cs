@@ -27,7 +27,6 @@ namespace PDFMetaDataUpdater {
 			RefreshNewFormattingPreview();
 			ClearRunningProgressMessage();
 			EnableRunButton();
-
 		}
 
 		private void InitializeInputFields() {
@@ -46,7 +45,9 @@ namespace PDFMetaDataUpdater {
 		OpenFileDialog openFileDialog = new OpenFileDialog();
 		private void SelectPdfFiles(object sender, RoutedEventArgs e) {
 			openFileDialog.Multiselect = true;
+			openFileDialog.Title = "Select manga volumes!";
 			openFileDialog.Filter = "PDF Files (*.pdf)|*.pdf";
+
 			if (openFileDialog.ShowDialog() == true) {
 				selectedFilePaths = openFileDialog.FileNames.ToList<string>();
 				RefreshFilesSelectedMessage();
@@ -77,36 +78,20 @@ namespace PDFMetaDataUpdater {
 				return;
 			}
 
-			// Create new directory
+			selectedFilePaths.Sort((s1, s2) => string.Compare(s1, s2));
+
+			string newDirectoryName = CreateNewDirectory();
+			CreateUpdatedFilesInNewDirectory(newDirectoryName);
+		}
+
+		private string CreateNewDirectory() {
 			string directoryName = Path.GetDirectoryName(selectedFilePaths[0]);
 			string newDirectoryName = directoryName + " NEW";
 			if (Directory.Exists(newDirectoryName)) {
 				Directory.Delete(newDirectoryName, true);
 			}
 			DirectoryInfo di = Directory.CreateDirectory(newDirectoryName);
-
-			selectedFilePaths.Sort((s1, s2) => string.Compare(s1, s2));
-
-			CreateUpdatedFilesInNewDirectory(newDirectoryName);
-
-			// Create updated pdf files in new directory
-			//int counter = 1;
-			//foreach (string filePath in selectedFilePaths) {
-			//	RefreshingRunningProgressMessage(counter, selectedFilePaths.Count);
-
-			//	string volumeNumber = counter.ToString().PadLeft(3, '0');
-			//	string newName = "One Piece v" + volumeNumber + ".pdf";
-			//	string newTitle = "One Piece v" + volumeNumber;
-
-			//	PdfDocument document = PdfReader.Open(filePath);
-			//	document.Info.Title = newTitle;
-			//	document.Info.Author = "Oda";
-			//	document.Save(newDirectoryName + "/" + newName);
-
-			//	counter++;
-			//}
-
-			//ClearRunningProgressMessage();
+			return newDirectoryName;
 		}
 
 		private async void CreateUpdatedFilesInNewDirectory(string newDirectory) {
@@ -115,6 +100,8 @@ namespace PDFMetaDataUpdater {
 			int counter = 1;
 			foreach (string filePath in selectedFilePaths) {
 				RefreshingRunningProgressMessage(counter, selectedFilePaths.Count);
+
+				await Task.Delay(1);
 
 				string volumeNumber = counter.ToString().PadLeft(curPadding0s, '0');
 				string newName = curMangaTitle + " v" + volumeNumber + ".pdf";
@@ -126,21 +113,16 @@ namespace PDFMetaDataUpdater {
 				document.Save(newDirectory + "/" + newName);
 
 				counter++;
-				await Task.Delay(5);
 			}
 
 			ClearRunningProgressMessage();
 
 			EnableRunButton();
 		}
-
 		#endregion
 
 
-		private void EnableRunButton() => RunButton.IsEnabled = true;
-		private void DisableRunButton() => RunButton.IsEnabled = false;
-
-		#region Refreshing frontend
+		#region Refreshing Frontend
 		private void RefreshFilesSelectedMessage() {
 			int numFilesSelected = (selectedFilePaths == null) ? 0 : selectedFilePaths.Count;
 			FilesSelectedMessage.Text = numFilesSelected + " files selected";
@@ -162,6 +144,9 @@ namespace PDFMetaDataUpdater {
 		private void ClearRunningProgressMessage() {
 			RunningProgressMessage.Text = "";
 		}
+
+		private void EnableRunButton() => RunButton.IsEnabled = true;
+		private void DisableRunButton() => RunButton.IsEnabled = false;
 		#endregion
 	}
 }
