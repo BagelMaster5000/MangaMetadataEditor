@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:PDFMetaDataUpdater"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="MainWindow"
+    Title="Manga Metadata Editor"
     Width="600"
     Height="400"
     ResizeMode="NoResize"
@@ -54,6 +54,7 @@
                                 Width="20"
                                 Height="20"
                                 Background="PaleGreen"
+                                Click="SaveEnteredTitle"
                                 Content="✔"
                                 Style="{StaticResource BouncyButtonBehavior}" />
                         </StackPanel>
@@ -70,6 +71,7 @@
                                 Width="20"
                                 Height="20"
                                 Background="PaleGreen"
+                                Click="SaveEnteredAuthor"
                                 Content="✔"
                                 Style="{StaticResource BouncyButtonBehavior}" />
                         </StackPanel>
@@ -77,20 +79,36 @@
                     <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
                         <TextBlock FontSize="10" Text="Padding left 0s in Volume #" />
                         <StackPanel Orientation="Horizontal">
-                            <TextBox
-                                Name="Padding0sField"
-                                Width="130"
-                                Height="20"
-                                Margin="0,0,5,0" />
+                            <Slider
+                                Name="Padding0sSlider"
+                                Width="100"
+                                Margin="0,0,5,0"
+                                IsSnapToTickEnabled="True"
+                                Maximum="3"
+                                Minimum="1"
+                                TickPlacement="Both" />
+                            <Border
+                                Width="25"
+                                Height="25"
+                                Margin="0,0,5,0"
+                                BorderBrush="Black"
+                                BorderThickness="1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding ElementName=Padding0sSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                            </Border>
                             <Button
                                 Width="20"
                                 Height="20"
                                 Background="PaleGreen"
+                                Click="SaveEnteredPadding0s"
                                 Content="✔"
                                 Style="{StaticResource BouncyButtonBehavior}" />
                         </StackPanel>
                     </StackPanel>
 
+                    <!--  New Formatting Preview  -->
                     <Border
                         Height="80"
                         Margin="5,10,5,5"
@@ -99,24 +117,22 @@
                             <TextBlock
                                 Margin="5"
                                 Padding="5,0"
-                                Text="New Formatting"
+                                Text="New Formatting Preview"
                                 TextAlignment="Center"
-                                TextDecorations="Underline">
-                                <TextBlock.Style>
-                                    <Style />
-                                </TextBlock.Style>
-                            </TextBlock>
+                                TextDecorations="Underline" />
                             <TextBlock
+                                Name="NewFormattingPreviewTitle"
                                 Margin="5"
                                 Padding="5,0"
                                 Background="White"
                                 Text="Title: One Piece #000"
                                 TextAlignment="Center" />
                             <TextBlock
+                                Name="NewFormattingPreviewAuthor"
                                 Margin="5"
                                 Padding="5,0"
                                 Background="White"
-                                Text="Author: Norm Gorgan"
+                                Text="Author: Eiichiro Oda"
                                 TextAlignment="Center" />
                         </StackPanel>
                     </Border>
@@ -125,11 +141,27 @@
         </Grid>
 
         <!--  Run Button  -->
-        <Button
-            Grid.Row="2"
-            Background="CadetBlue"
-            Click="RunFileProcessing"
-            Content="Run"
-            Style="{StaticResource BouncyButtonBehavior}" />
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="15" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Name="RunningProgressMessage"
+                Grid.Row="0"
+                Width="150"
+                FontSize="10"
+                Text="Processing... 0/0"
+                TextAlignment="Center" />
+            <Button
+                Name="RunButton"
+                Grid.Row="1"
+                Background="CadetBlue"
+                Click="RunFileProcessing"
+                Content="Run"
+                IsEnabled="False"
+                Style="{StaticResource BouncyButtonBehavior}" />
+        </Grid>
     </Grid>
 </Window>
