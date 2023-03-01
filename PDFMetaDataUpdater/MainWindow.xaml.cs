@@ -1,11 +1,9 @@
 ﻿using Microsoft.Win32;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Path = System.IO.Path;
@@ -57,16 +55,10 @@ namespace PDFMetaDataUpdater {
 		#endregion
 
 
-		#region Input Fields
-		private void SaveEnteredTitle(object sender, RoutedEventArgs e) {
+		#region Editing Metadata Formatting
+		private void ApplyFormattingChanges(object sender, RoutedEventArgs e) {
 			customMangaTitle = TitleField.Text;
-			RefreshNewFormattingPreview();
-		}
-		private void SaveEnteredAuthor(object sender, RoutedEventArgs e) {
 			customMangaAuthor = AuthorField.Text;
-			RefreshNewFormattingPreview();
-		}
-		private void SaveEnteredPadding0s(object sender, RoutedEventArgs e) {
 			custom0sPadding = (int)Padding0sSlider.Value;
 			RefreshNewFormattingPreview();
 		}

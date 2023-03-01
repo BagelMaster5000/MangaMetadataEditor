@@ -33,6 +33,7 @@
                 Style="{StaticResource BouncyButtonBehavior}" />
         </StackPanel>
 
+        <!--  Body  -->
         <Grid Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -41,8 +42,15 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Margin="5" Orientation="Vertical">
-                    <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                <!--  Metadata Editor  -->
+                <StackPanel
+                    Grid.Column="0"
+                    Margin="5"
+                    Orientation="Vertical">
+                    <StackPanel
+                        Margin="0,0,0,5"
+                        HorizontalAlignment="Center"
+                        Orientation="Vertical">
                         <TextBlock FontSize="10" Text="Title" />
                         <StackPanel Orientation="Horizontal">
                             <TextBox
@@ -50,16 +58,12 @@
                                 Width="130"
                                 Height="20"
                                 Margin="0,0,5,0" />
-                            <Button
-                                Width="20"
-                                Height="20"
-                                Background="PaleGreen"
-                                Click="SaveEnteredTitle"
-                                Content="✔"
-                                Style="{StaticResource BouncyButtonBehavior}" />
                         </StackPanel>
                     </StackPanel>
-                    <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                    <StackPanel
+                        Margin="0,0,0,5"
+                        HorizontalAlignment="Center"
+                        Orientation="Vertical">
                         <TextBlock FontSize="10" Text="Author" />
                         <StackPanel Orientation="Horizontal">
                             <TextBox
@@ -67,16 +71,12 @@
                                 Width="130"
                                 Height="20"
                                 Margin="0,0,5,0" />
-                            <Button
-                                Width="20"
-                                Height="20"
-                                Background="PaleGreen"
-                                Click="SaveEnteredAuthor"
-                                Content="✔"
-                                Style="{StaticResource BouncyButtonBehavior}" />
                         </StackPanel>
                     </StackPanel>
-                    <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                    <StackPanel
+                        Margin="0,0,0,5"
+                        HorizontalAlignment="Center"
+                        Orientation="Vertical">
                         <TextBlock FontSize="10" Text="Padding left 0s in Volume #" />
                         <StackPanel Orientation="Horizontal">
                             <Slider
@@ -98,15 +98,16 @@
                                     VerticalAlignment="Center"
                                     Text="{Binding ElementName=Padding0sSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
                             </Border>
-                            <Button
-                                Width="20"
-                                Height="20"
-                                Background="PaleGreen"
-                                Click="SaveEnteredPadding0s"
-                                Content="✔"
-                                Style="{StaticResource BouncyButtonBehavior}" />
                         </StackPanel>
                     </StackPanel>
+                    <Button
+                        Width="80"
+                        Height="20"
+                        Margin="0,0,0,5"
+                        Background="PaleGreen"
+                        Click="ApplyFormattingChanges"
+                        Content="Apply ✔"
+                        Style="{StaticResource BouncyButtonBehavior}" />
 
                     <!--  New Formatting Preview  -->
                     <Border
