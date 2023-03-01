@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using Path = System.IO.Path;
 
 namespace PDFMetaDataUpdater {
@@ -141,5 +142,10 @@ namespace PDFMetaDataUpdater {
 		private void EnableRunButton() => RunButton.IsEnabled = true;
 		private void DisableRunButton() => RunButton.IsEnabled = false;
 		#endregion
+
+		private void SelectAddress(object sender, RoutedEventArgs e) {
+			TextBox tb = (sender as TextBox);
+			tb?.SelectAll();
+		}
 	}
 }

@@ -57,7 +57,9 @@
                                 Name="TitleField"
                                 Width="130"
                                 Height="20"
-                                Margin="0,0,5,0" />
+                                Margin="0,0,5,0"
+                                GotFocus="SelectAddress"
+                                GotMouseCapture="SelectAddress" />
                         </StackPanel>
                     </StackPanel>
                     <StackPanel
@@ -70,7 +72,9 @@
                                 Name="AuthorField"
                                 Width="130"
                                 Height="20"
-                                Margin="0,0,5,0" />
+                                Margin="0,0,5,0"
+                                GotFocus="SelectAddress"
+                                GotMouseCapture="SelectAddress" />
                         </StackPanel>
                     </StackPanel>
                     <StackPanel
